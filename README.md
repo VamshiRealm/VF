@@ -1,12 +1,42 @@
-# Vamshi Fashion – Tailoring Management System
+# 👔 Vamshi Fashion – Tailoring Management System
 
-A full-stack tailoring management system built for **Vamshi Fashion** to manage customers, measurements, orders, billing, and garment status tracking.
+A **full-stack tailoring management system** built to digitize tailoring shop operations including customer management, measurements, orders, billing, and garment status tracking.
 
-The system also allows customers to **scan a QR code on their bill to check order status online**.
+Customers can **scan a QR code on their bill to check the status of their garments online**.
 
 ---
 
-# Features
+# 🌐 Live Application
+
+Frontend (Netlify)
+
+https://vamshi-fashion.netlify.app
+
+Backend API (Render)
+
+https://vamshi-fashion.onrender.com
+
+---
+
+# 🎥 Demo Video
+
+A full walkthrough of the application is available here:
+
+Google Drive Demo Video:
+
+[ video link to be developed ]
+
+
+
+---
+
+# 📦 GitHub Repository
+
+https://github.com/VamshiRealm/VF
+
+---
+
+# ✨ Features
 
 ## Admin Features
 
@@ -16,19 +46,41 @@ The system also allows customers to **scan a QR code on their bill to check orde
 * Garment status tracking
 * Billing and payment tracking
 * Printable measurement sheets
-* Printable bills
+* Printable invoices
 * QR code generation for order tracking
 * Orders dashboard
 * Bills history
-
-## Customer Features
-
-* Scan QR code from bill
-* Track garment status online
+* Customer search
 
 ---
 
-# Tech Stack
+## Customer Features
+
+Customers can:
+
+* Scan QR code from bill
+* View order progress online
+* Track garment production stages
+
+---
+
+# 🪡 Order Status Flow
+
+Garments move through the following stages:
+
+```
+RECEIVED
+CUTTING
+STITCHING
+FINISHING
+READY
+```
+
+Admins update garment status from the **Orders Dashboard**.
+
+---
+
+# 🛠 Tech Stack
 
 ## Frontend
 
@@ -38,24 +90,48 @@ The system also allows customers to **scan a QR code on their bill to check orde
 * TailwindCSS
 * QRCode React
 
+---
+
 ## Backend
 
 * Node.js
 * Express.js
 * Prisma ORM
 
+---
+
 ## Database
 
 * SQLite (local development)
 
+---
+
 ## Deployment
 
-* Frontend: Netlify
-* Backend: Render
+| Service  | Platform |
+| -------- | -------- |
+| Frontend | Netlify  |
+| Backend  | Render   |
+| Database | SQLite   |
 
 ---
 
-# Project Structure
+# 🏗 System Architecture
+
+```
+Frontend (React / Vite)
+        │
+        │ API Calls
+        ▼
+Backend (Node.js / Express)
+        │
+        ▼
+Database (SQLite via Prisma)
+```
+
+---
+
+# 📂 Project Structure
 
 ```
 VF
@@ -77,7 +153,7 @@ VF
 
 ---
 
-# Local Installation
+# ⚙️ Local Development Setup
 
 ## Prerequisites
 
@@ -86,7 +162,7 @@ Install:
 * Node.js
 * Git
 
-Verify installation:
+Check installation:
 
 ```
 node -v
@@ -96,16 +172,16 @@ git --version
 
 ---
 
-# Clone Repository
+# 📥 Clone Repository
 
 ```
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git clone https://github.com/VamshiRealm/VF.git
 cd VF
 ```
 
 ---
 
-# Backend Setup
+# 🔧 Backend Setup
 
 Navigate to backend:
 
@@ -138,7 +214,7 @@ Run database migration:
 npx prisma migrate dev
 ```
 
-Start backend server:
+Start backend:
 
 ```
 npm run dev
@@ -158,7 +234,7 @@ http://localhost:4000/api/health
 
 ---
 
-# Frontend Setup
+# 💻 Frontend Setup
 
 Open a new terminal.
 
@@ -180,7 +256,7 @@ Create `.env`
 VITE_API_BASE=http://localhost:4000/api
 ```
 
-Start development server:
+Run development server:
 
 ```
 npm run dev
@@ -194,9 +270,9 @@ http://localhost:5173
 
 ---
 
-# Admin Login
+# 🔐 Admin Login
 
-Default admin accounts:
+Default accounts:
 
 | Username | Password   |
 | -------- | ---------- |
@@ -206,13 +282,13 @@ Default admin accounts:
 
 ---
 
-# System Workflow
+# 🧾 Application Workflow
 
 Admin workflow:
 
 ```
 Login
- → Customers
+ → Add Customer
  → Enter Measurements
  → Create Order
  → Billing
@@ -230,21 +306,7 @@ Scan QR code
 
 ---
 
-# Order Status Stages
-
-```
-RECEIVED
-CUTTING
-STITCHING
-FINISHING
-READY
-```
-
-Admins update status from the **Orders dashboard**.
-
----
-
-# API Endpoints
+# 📡 API Endpoints
 
 ## Customers
 
@@ -255,12 +317,16 @@ GET /api/customers/:id
 DELETE /api/customers/:id
 ```
 
+---
+
 ## Measurements
 
 ```
 GET /api/customers/:id/measurements
 POST /api/customers/:id/measurements
 ```
+
+---
 
 ## Orders
 
@@ -269,6 +335,8 @@ GET /api/orders
 GET /api/orders/:id
 PATCH /api/orders/:id/status
 ```
+
+---
 
 ## Bills
 
@@ -279,13 +347,11 @@ GET /api/bills
 
 ---
 
-# Deployment
+# 🚀 Deployment
 
 ## Backend Deployment (Render)
 
-1. Create Web Service
-2. Connect GitHub repo
-3. Configure:
+Configuration:
 
 ```
 Root Directory: vamshi-backend
@@ -315,27 +381,33 @@ Publish Directory: dist
 Environment variable:
 
 ```
-VITE_API_BASE=https://YOUR_RENDER_URL/api
+VITE_API_BASE=https://vamshi-fashion.onrender.com/api
 ```
 
 ---
 
-# QR Order Tracking
+# 📱 QR Order Tracking
 
-Each printed bill contains a QR code that links to:
+Each printed bill contains a QR code linking to:
 
 ```
 /track/order/{orderId}
 ```
 
-Customers can scan this to check order status.
+Example:
+
+```
+https://vamshi-fashion.netlify.app/track/order/10
+```
+
+Customers can scan this QR code to check order status.
 
 ---
 
-# Future Improvements
+# 🔮 Future Improvements
 
-* SMS order notifications
-* Customer login via phone number
+* SMS notifications when order is ready
+* Customer login using mobile number
 * PDF invoice download
 * Analytics dashboard
 * PostgreSQL database migration
@@ -343,12 +415,12 @@ Customers can scan this to check order status.
 
 ---
 
-# Author
+# 👨‍💻 Author
 
-Developed for **Vamshi Fashion Tailoring Management System**.
+Developed for **Vamshi Fashion Tailoring Management System**
 
 ---
 
-# License
+# 📄 License
 
 This project is licensed under the MIT License.
