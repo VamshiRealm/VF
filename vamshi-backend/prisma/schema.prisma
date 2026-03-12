@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id            Int           @id @default(autoincrement())
+  customerCode  String        @unique
+  name          String
+  phone         String
+  createdAt     DateTime      @default(now())
+
+  orders        Order[]
+  measurements  Measurement[]
+}
+
+model Order {
+  id          Int           @id @default(autoincrement())
+  customerId  Int
+  createdAt   DateTime      @default(now())
+  status      OrderStatus   @default(RECEIVED)
+  
+  paidAmount  Float         @default(0)
+  deliveryDate DateTime?
+
+  customer    Customer      @relation(fields: [customerId], references: [id])
+  garments    Garment[]
+}
+
+model Garment {
+  id          Int           @id @default(autoincrement())
+  orderId     Int
+  type        String
+  quantity    Int
+  status      OrderStatus   @default(RECEIVED)
+
+  order       Order         @relation(fields: [orderId], references: [id])
+}
+
+model Measurement {
+  id            Int      @id @default(autoincrement())
+  customerId    Int
+  type          String
+  data          Json
+  comments      String?
+  quantity      Int?
+  createdAt     DateTime @default(now())
+
+  customer      Customer @relation(fields: [customerId], references: [id])
+}
+
+enum OrderStatus {
+  RECEIVED
+  CUTTING
+  STITCHING
+  FINISHING
+  READY
+}
