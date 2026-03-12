@@ -13,7 +13,7 @@ export default function DashboardLayout() {
           <nav className="flex flex-col gap-3">
             <Link to="/dashboard/customers" className="hover:text-gray-200">Customers</Link>
             <Link to="/dashboard/measurements" className="hover:text-gray-200">Measurements</Link>
-            <Link to="/dashboard/billing" className="hover:text-gray-200">Billing</Link>
+            <Link to="/dashboard/bills" className="hover:text-gray-200">Billing</Link>
             <Link to="/dashboard/orders" className="hover:text-gray-200">Orders</Link>
           </nav>
         </div>

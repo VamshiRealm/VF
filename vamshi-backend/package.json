@@ -1,17 +1,16 @@
 {
   "name": "vamshi-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "generate": "set DATABASE_URL=file:./prisma/dev.db && npx prisma generate --schema=prisma/schema.prisma",
-    "migrate": "set DATABASE_URL=file:./prisma/dev.db && npx prisma migrate dev --name init --schema=prisma/schema.prisma",
-    "dev": "npx prisma generate && nodemon src/index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "description": "Vamshi Fashion Backend API",
+  "main": "src/index.js",
   "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
+  },
   "dependencies": {
     "@prisma/client": "^6.19.0",
     "body-parser": "^2.2.0",

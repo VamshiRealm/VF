@@ -108,24 +108,68 @@ export default function MeasurementsPage() {
     }
   };
 
-  // Load existing measurements (to pre-fill first entry)
-// New useEffect - only resolves customer, does NOT prefill form fields
 useEffect(() => {
-  async function loadCustomer() {
+  async function loadCustomerAndMeasurements() {
     try {
-      if (!resolvedCustomer) {
+      // Load customer
+      let cust = resolvedCustomer;
+
+      if (!cust) {
         const res = await axios.get(`${API}/customers/${id}`);
-        setResolvedCustomer(res.data);
+        cust = res.data;
+        setResolvedCustomer(cust);
       }
-      // Do NOT fetch & inject previous measurement data into the editing form.
-      // The measurements list / modal can still show previous measurements;
-      // but the edit form must start empty (or keep what the user typed).
+
+      // Load previous measurements
+      const resMeasurements = await axios.get(
+        `${API}/customers/${id}/measurements`
+      );
+
+      const list = resMeasurements.data;
+
+      if (list.length > 0) {
+
+        let top = null;
+        let bottom = null;
+
+        for (const m of list) {
+          if (!top && TOP_OPTIONS.map(t => t.toLowerCase()).includes(m.type)) {
+            top = m;
+          }
+
+          if (!bottom && BOTTOM_OPTIONS.map(b => b.toLowerCase()).includes(m.type)) {
+            bottom = m;
+          }
+
+          if (top && bottom) break;
+        }
+
+        setEntries([
+          {
+            topType: top?.data?.garment || "Shirt",
+            bottomType: bottom?.data?.garment || "Pant",
+
+            pantQty: bottom?.quantity || 1,
+            shirtQty: top?.quantity || 1,
+
+            pant: { ...INITIAL_PANT, ...(bottom?.data || {}) },
+            shirt: { ...INITIAL_SHIRT, ...(top?.data || {}) },
+
+            pantComments: bottom?.comments || "",
+            shirtComments: top?.comments || "",
+
+            extraPant: [],
+            extraShirt: [],
+          },
+        ]);
+      }
+
     } catch (err) {
-      console.error("Error loading customer:", err);
+      console.error("Error loading measurements:", err);
     }
   }
-  loadCustomer();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  loadCustomerAndMeasurements();
 }, [id]);
 
 

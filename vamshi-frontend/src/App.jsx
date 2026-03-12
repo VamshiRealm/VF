@@ -10,6 +10,7 @@ import PrintBillingPage from "./pages/PrintBillingPage";
 import UpdateOrderStatus from "./pages/UpdateOrderStatus";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import TrackOrderPage from "./pages/TrackOrderPage";
+import BillsPage from "./pages/BillsPage";
 
 // Protected Route wrapper
 function PrivateRoute({ children }) {
@@ -38,6 +39,7 @@ export default function App() {
               <Route path="print-measurements" element={<PrintMeasurementsPage />} />
               <Route path="print-bill" element={<PrintBillingPage />} />
               <Route path="orders" element={<UpdateOrderStatus />} />
+              <Route path="bills" element={<BillsPage />} />
 
             </Route>
           <Route path="/" element={<Navigate to="/login" />} />

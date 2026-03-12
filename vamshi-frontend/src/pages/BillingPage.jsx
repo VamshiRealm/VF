@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API_BASE = "http://localhost:4000/api";
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 export default function BillingPage() {
   const { state } = useLocation();
@@ -48,22 +48,27 @@ export default function BillingPage() {
 
   const balance = subtotal - Number(paid || 0);
 
-  const handleSaveBill = async () => {
+const handleSaveBill = async () => {
   try {
     if (!orderId) {
       alert("Order ID missing");
       return;
     }
 
-    await axios.patch(`${API_BASE}/orders/${orderId}/bill`, {
-      paidAmount: paid,
-      deliveryDate,
-    });
+    const billData = {
+        orderId: Number(orderId),
+        subtotal: Number(subtotal),
+        paid: Number(paid),
+        balance: Number(subtotal) - Number(paid),
+        deliveryDate
+    };    
+
+    await axios.post(`${API_BASE}/bills`, billData);
 
     alert("✅ Bill saved successfully");
   } catch (err) {
     console.error("Save bill failed:", err);
-    alert("Failed to save bill");
+    alert("❌ Failed to save bill");
   }
 };
 

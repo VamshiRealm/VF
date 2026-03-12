@@ -5,7 +5,9 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "*"
+}));
 app.use(express.json());
 
 // Simple in-memory rates store (persist with DB later if required)
@@ -352,6 +354,61 @@ app.patch("/api/orders/:id/bill", async (req, res) => {
     res.status(500).json({ error: "Failed to save bill" });
   }
 });
+
+// Bill apis 
+app.post("/api/bills", async (req, res) => {
+  try {
+    const { orderId, subtotal, paid, balance, deliveryDate } = req.body;
+
+    const bill = await prisma.bill.upsert({
+      where: { orderId: Number(orderId) },
+
+      update: {
+        subtotal: Number(subtotal),
+        paid: Number(paid),
+        balance: Number(balance),
+        deliveryDate: deliveryDate || null
+      },
+
+      create: {
+        orderId: Number(orderId),
+        subtotal: Number(subtotal),
+        paid: Number(paid),
+        balance: Number(balance),
+        deliveryDate: deliveryDate || null
+      }
+    });
+
+   
+    res.json(bill);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to save bill" });
+  }
+});
+
+app.get("/api/bills", async (req, res) => {
+  try {
+
+    const bills = await prisma.bill.findMany({
+      include: {
+        order: {
+          include: {
+            customer: true
+          }
+        }
+      },
+      orderBy: { createdAt: "desc" }
+    });
+
+    res.json(bills);
+
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch bills" });
+  }
+});
+
 
 
 // ✅ List measurements with grouping logic

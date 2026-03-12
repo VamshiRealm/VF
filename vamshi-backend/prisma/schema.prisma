@@ -29,6 +29,8 @@ model Order {
 
   customer    Customer      @relation(fields: [customerId], references: [id])
   garments    Garment[]
+
+  bill         Bill?  
 }
 
 model Garment {
@@ -51,6 +53,18 @@ model Measurement {
   createdAt     DateTime @default(now())
 
   customer      Customer @relation(fields: [customerId], references: [id])
+}
+
+model Bill {
+  id           Int       @id @default(autoincrement())
+  orderId      Int       @unique 
+  subtotal     Float
+  paid         Float
+  balance      Float
+  deliveryDate String?
+  createdAt    DateTime @default(now())
+
+  order        Order    @relation(fields: [orderId], references: [id])
 }
 
 enum OrderStatus {
