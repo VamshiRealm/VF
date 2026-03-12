@@ -141,7 +141,7 @@ export default function PrintBillingPage() {
           <p className="text-sm">Scan to track your order</p>
 
                <QRCodeCanvas
-                value={`http://localhost:5173/track/order/${orderId}`}
+                 value={`${window.location.origin}/track/order/${orderId}`}
                  size={120}
                 />
 
