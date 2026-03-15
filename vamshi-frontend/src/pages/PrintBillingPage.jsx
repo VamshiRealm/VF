@@ -96,10 +96,12 @@ export default function PrintBillingPage() {
 
         <div style={{fontSize:"13px",marginTop:"8px"}}>
           Customer: {customer.name} • {customer.phone}
-          <br/>
+            <br/>
+            Order ID: #{orderId}
+            <br/>
           Order: {new Date(orderDate).toLocaleString()}
-          <br/>
-          Delivery: {deliveryDate || "-"}
+        <br/>
+        Delivery: {deliveryDate || "-"}
         </div>
 
         <table>

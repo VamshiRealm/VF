@@ -97,30 +97,39 @@ const handleSaveBill = async () => {
         <div className="grid md:grid-cols-2 gap-4">
 
           <div>
-            <label className="text-sm text-gray-600">Customer</label>
-            <div className="p-2 border rounded">
-              {customer?.name} • {customer?.phone}
-            </div>
-          </div>
+             <label className="text-sm text-gray-600">Customer</label>
+           <div className="p-2 border rounded">
+            {customer?.name} • {customer?.phone}
+           </div>
+         </div>
 
-          <div>
-            <label className="text-sm text-gray-600">Order date</label>
-            <input
-              readOnly
-              value={new Date(orderDate).toLocaleString()}
-              className="w-full border p-2 rounded bg-gray-50"
-            />
+            <div>
+             <label className="text-sm text-gray-600">Order ID</label>
+              <div className="p-2 border rounded bg-gray-50">
+                   #{orderId}
+             </div>
+           </div>
 
-            <label className="text-sm text-gray-600 mt-2 block">
+           <div>
+             <label className="text-sm text-gray-600">Order date</label>
+                 <input
+                   readOnly
+                   value={new Date(orderDate).toLocaleString()}
+                  className="w-full border p-2 rounded bg-gray-50"
+                     />
+               </div>
+
+               <div>
+              <label className="text-sm text-gray-600 mt-2 block">
               Delivery date
-            </label>
+           </label>
 
             <input
               type="date"
-              value={deliveryDate}
-              onChange={(e) => setDeliveryDate(e.target.value)}
-              className="w-full border p-2 rounded"
-            />
+               value={deliveryDate}
+               onChange={(e) => setDeliveryDate(e.target.value)}
+               className="w-full border p-2 rounded"
+             />
           </div>
 
         </div>

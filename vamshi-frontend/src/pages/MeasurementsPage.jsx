@@ -87,6 +87,9 @@ export default function MeasurementsPage() {
   const inputRefs = useRef([]);
   const saveButtonRef = useRef(null);
 
+  const REQUIRED_PANT_FIELDS = ["length", "waist", "hip"];
+  const REQUIRED_SHIRT_FIELDS = ["length", "chest","stomach", "shoulder"];
+
 
   const addInputRef = (el) => {
     if (el && !inputRefs.current.includes(el)) {
@@ -263,6 +266,20 @@ const handleSaveAll = async (e) => {
     return;
   }
 
+  for (const entry of entries) {
+
+      if (!entry.pant.length || !entry.pant.waist || !entry.pant.hip) {
+        alert("Bottom measurements Length, Waist and Hip are required.");
+        return;
+     }
+
+      if (!entry.shirt.length || !entry.shirt.chest || !entry.shirt.shoulder) {
+        alert("Top measurements Length, Chest and Shoulder are required.");
+        return;
+        }
+
+    }
+
   const identifier = resolvedCustomer.customerCode
     ? resolvedCustomer.customerCode.toString()
     : resolvedCustomer.id.toString();
@@ -396,6 +413,7 @@ const handleCancel = async () => {
 
     return (
       <input
+      autoComplete="off"
         type="text"
         name={name}
         value={entry.pant[name]}
@@ -451,6 +469,7 @@ const handleCancel = async () => {
 
     return (
       <input
+      autoComplete="off"
         type="text"
         name={name}
         value={entry.shirt[name]}
@@ -463,7 +482,7 @@ const handleCancel = async () => {
   };
 
   const pantFields = [
-    { name: "position", label: "Position" },
+    { name: "position", label: "Waist Position (from Navel)" },
     { name: "length", label: "Length" },
     { name: "waist", label: "Waist" },
     { name: "hip", label: "Hip" },
@@ -523,7 +542,7 @@ const handleCancel = async () => {
         </span>
       </h1>
 
-      <form onSubmit={handleSaveAll} className="space-y-6">
+      <form onSubmit={handleSaveAll} autoComplete="off" className="space-y-6">
         {entries.map((entry, index) => (
           <div key={index} className="grid md:grid-cols-2 gap-6">
             {/* Bottom Panel */}
@@ -554,6 +573,7 @@ const handleCancel = async () => {
                 <div className="flex items-center gap-2">
                   <label className="text-sm text-gray-600">Qty</label>
                   <input
+                  autoComplete="off"
                     type="number"
                     className={inputStyle}
                     value={entry.pantQty}
@@ -570,7 +590,10 @@ const handleCancel = async () => {
                 {pantFields.map(({ name, label }) => (
                   <div key={name} className="flex items-center gap-2">
                     <label className="w-24 text-xs md:text-sm text-gray-700">
-                      {label}
+                        {label}
+                        {REQUIRED_PANT_FIELDS.includes(name) && (
+                         <span className="text-red-500 ml-1">*</span>
+                       )}
                     </label>
                     {renderPantField(index, name, label)}
                   </div>
@@ -580,6 +603,7 @@ const handleCancel = async () => {
               {entry.extraPant.map((ex, i) => (
                 <div key={i} className="flex items-center gap-2 mt-1">
                   <input
+                    autoComplete="off"
                     type="text"
                     placeholder="Label"
                     value={ex.label}
@@ -591,6 +615,7 @@ const handleCancel = async () => {
                     ref={addInputRef}
                   />
                   <input
+                    autoComplete="off"
                     type="text"
                     placeholder="Value"
                     value={ex.value}
@@ -653,6 +678,7 @@ const handleCancel = async () => {
                 <div className="flex items-center gap-2">
                   <label className="text-sm text-gray-600">Qty</label>
                   <input
+                    autoComplete="off"
                     type="number"
                     className={inputStyle}
                     value={entry.shirtQty}
@@ -670,6 +696,9 @@ const handleCancel = async () => {
                   <div key={name} className="flex items-center gap-2">
                     <label className="w-28 text-xs md:text-sm text-gray-700">
                       {label}
+                      {REQUIRED_SHIRT_FIELDS.includes(name) && (
+                         <span className="text-red-500 ml-1">*</span>
+                 )}
                     </label>
                     {renderShirtField(index, name, label)}
                   </div>
@@ -679,6 +708,7 @@ const handleCancel = async () => {
               {entry.extraShirt.map((ex, i) => (
                 <div key={i} className="flex items-center gap-2 mt-1">
                   <input
+                    autoComplete="off"
                     type="text"
                     placeholder="Label"
                     value={ex.label}
@@ -690,6 +720,7 @@ const handleCancel = async () => {
                     ref={addInputRef}
                   />
                   <input
+                    autoComplete="off"
                     type="text"
                     placeholder="Value"
                     value={ex.value}
